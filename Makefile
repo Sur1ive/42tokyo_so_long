@@ -1,4 +1,4 @@
-SRCS	= main.c
+SRCS	= main.c color.c libft.a
 OBJS	= $(SRCS:.c=.o)
 NAME	= a.out
 CC		= cc
