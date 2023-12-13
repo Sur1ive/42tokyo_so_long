@@ -1,13 +1,14 @@
-SRCS	= main.c color.c libft.a
+SRCS	= main.c color.c load_map.c check.c
 OBJS	= $(SRCS:.c=.o)
 NAME	= a.out
+LIB		= libft.a
 CC		= cc
 
 %.o: %.c
 	$(CC) -Wall -Wextra -Werror -Imlx -Iincludes -c $< -o $@
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+	$(CC) $(OBJS) $(LIB) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 
 all: $(NAME)
 
