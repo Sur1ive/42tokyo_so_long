@@ -6,7 +6,7 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 17:04:34 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/13 18:12:18 by yxu              ###   ########.fr       */
+/*   Updated: 2023/12/17 18:40:59 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,23 @@ char	**read_map(char *path, t_data *data)
 	char	**map;
 	int		i;
 
-	data->map_rows = count_line(path);
+	data->rows = count_line(path);
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 		return (NULL);
-	map = (char **)malloc(sizeof(char *) * (data->map_rows + 1));
-	map[data->map_rows] = NULL;
+	map = (char **)malloc(sizeof(char *) * (data->rows + 1));
+	map[data->rows] = NULL;
 	i = 0;
-	while (i < data->map_rows)
+	while (i < data->rows)
 		map[i++] = get_next_line(fd);
 	close(fd);
 	i = 0;
-	while (i < data->map_rows - 1)
+	while (i < data->rows - 1)
 	{
 		map[i][ft_strlen(map[i]) - 1] = '\0';
 		i++;
 	}
+	data->cols = ft_strlen(map[0]);
 	return (map);
 }
 

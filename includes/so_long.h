@@ -6,7 +6,7 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 18:21:34 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/13 18:21:34 by yxu              ###   ########.fr       */
+/*   Updated: 2023/12/17 18:43:14 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,36 @@ typedef struct s_obj{
 	int	collectible;
 }	t_obj;
 
+typedef struct s_image{
+	void	*image;
+	int		width;
+	int		height;
+}	t_image;
+
+typedef struct s_texture{
+	t_image	player_w;
+	t_image	player_a;
+	t_image	player_s;
+	t_image	player_d;
+	t_image	water;
+	t_image	wall;
+	t_image	escape;
+	t_image	collect;
+}	t_texture;
+
 typedef struct s_data {
-	void	*win;
-	void	*mlx;
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-	char	**map;
-	int		map_rows;
-	t_obj	player;
+	void		*win;
+	void		*mlx;
+	void		*img;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+	char		**map;
+	int			rows;
+	int			cols;
+	t_obj		player;
+	t_texture	texture;
 }	t_data;
 
 int		create_trgb(int t, int r, int g, int b);
@@ -48,9 +67,9 @@ char	**read_map(char *path, t_data *data);
 int		load_map(char **map, t_data *data);
 int		print_map(char **map);
 int		free_map(char **map);
-int		check_map(char **map, t_data *data);
+int		check_map(char *path, char **map, t_data *data);
 int		quit(int exitcode, t_data *data);
-int		check_ext(char *path);
-
+int		key(int keycode, t_data *data);
+int		mkwall(t_data *data);
 
 #endif

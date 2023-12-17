@@ -1,4 +1,4 @@
-SRCS	= main.c color.c load_map.c check.c
+SRCS	= main.c color.c load_map.c check.c key.c
 OBJS	= $(SRCS:.c=.o)
 NAME	= a.out
 LIB		= libft.a

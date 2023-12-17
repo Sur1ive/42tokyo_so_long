@@ -6,11 +6,22 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 16:12:31 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/13 18:25:45 by yxu              ###   ########.fr       */
+/*   Updated: 2023/12/17 18:58:31 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+int	check_ext(char *path)
+{
+	char	*file_ext;
+
+	file_ext = ".ber";
+	if (ft_strlen(path) < 5
+		|| ft_strncmp(&path[ft_strlen(path) - 4], file_ext, 4))
+		return (-1);
+	return (0);
+}
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
@@ -36,93 +47,91 @@ int	quit(int exitcode, t_data *data)
 	exit(exitcode);
 }
 
-int	test(t_data *data)
+int	mkbackground(int frame, t_data *data)
 {
-	int	i;
-	int	j;
+	int			x;
+	int			y;
 
-	i = 0;
-	while (i < 1920)
+	y = 0;
+	while (y < 88 * data->rows)
 	{
-		j = 0;
-		while (j < 1080)
+		x = -192 + frame * 64;
+		while (x < 88 * data->cols)
 		{
-			my_mlx_pixel_put(data, i, j, 0x00FFFFFF);
-			j++;
+			mlx_put_image_to_window(data->mlx, data->win,
+				data->texture.water.image, x, y);
+			x += 256;
 		}
-		i++;
+		y += 64;
 	}
-	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+	frame = (frame + 1) % 4;
 	return (0);
 }
 
-// int	printmouse(int button, int x, int y, t_data *data)
-// {
-// 	ft_printf("mouse click x: %d y: %d button: %d\n", x, y, button);
-// 	return (0);
-// }
-
-int	remap(t_data *data)
+int	mkwall(t_data *data)
 {
-	data->map[data->player.x_from][data->player.y_from] = '0';
-	data->map[data->player.x][data->player.y] = 'P';
+	int		x;
+	int		y;
+
+	x = 0;
+	while (data->map[x])
+	{
+		y = 0;
+		while (data->map[x][y])
+		{
+			if (data->map[x][y] == '1')
+				mlx_put_image_to_window(data->mlx, data->win,
+					data->texture.wall.image, y * 88, x * 88);
+			if (data->map[x][y] == 'E')
+				mlx_put_image_to_window(data->mlx, data->win,
+					data->texture.escape.image, y * 88, 22 + x * 88);
+			if (data->map[x][y] == 'P')
+				mlx_put_image_to_window(data->mlx, data->win,
+					data->texture.player_s.image, 12 + y * 88, 12 + x * 88);
+			if (data->map[x][y] == 'C')
+				mlx_put_image_to_window(data->mlx, data->win,
+					data->texture.collect.image, 12 + y * 88, 12 + x * 88);
+			y++;
+		}
+		x++;
+	}
 	return (0);
 }
 
-char	move_to(int keycode, t_data *data)
+int	screenctl(t_data *data)
 {
-	char		to;
+	static int	frame = 0;
 
-	to = 0;
-	if (keycode == 13)
-		to = data->map[data->player.x - 1][data->player.y];
-	if (keycode == 1)
-		to = data->map[data->player.x + 1][data->player.y];
-	if (keycode == 0)
-		to = data->map[data->player.x][data->player.y - 1];
-	if (keycode == 2)
-		to = data->map[data->player.x][data->player.y + 1];
-	return (to);
+	mkbackground(frame, data);
+	mkwall(data);
+	frame = (frame + 1) % 4;
+	// usleep(400000);
+	return (0);
 }
 
-int	move(int keycode, t_data *data)
+int	load_texture(t_data *data)
 {
-	static int	move_nb = 0;
-	char		to;
-
-	data->player.x_from = data->player.x;
-	data->player.y_from = data->player.y;
-	to = move_to(keycode, data);
-	if (to != '1' && to != 'E')
-	{
-		if (keycode == 13)
-			data->player.x--;
-		if (keycode == 1)
-			data->player.x++;
-		if (keycode == 0)
-			data->player.y--;
-		if (keycode == 2)
-			data->player.y++;
-		move_nb++;
-	}
-	if (to == 'C')
-		data->player.collectible--;
-	if (to == 'E' && data->player.collectible == 0)
-		quit(0, data);
-	return (move_nb);
+	data->texture.water.image = mlx_xpm_file_to_image(data->mlx,
+			"textures/water.xpm",
+			&data->texture.water.width, &data->texture.water.height);
+	data->texture.wall.image = mlx_xpm_file_to_image(data->mlx,
+			"textures/grass.xpm",
+			&data->texture.wall.width, &data->texture.wall.height);
+	data->texture.escape.image = mlx_xpm_file_to_image(data->mlx,
+			"textures/item.xpm",
+			&data->texture.wall.width, &data->texture.wall.height);
+	data->texture.player_s.image = mlx_xpm_file_to_image(data->mlx,
+			"textures/player_s.xpm",
+			&data->texture.player_s.width, &data->texture.player_s.height);
+	data->texture.collect.image = mlx_xpm_file_to_image(data->mlx,
+			"textures/egg.xpm",
+			&data->texture.collect.width, &data->texture.collect.height);
+	return (0);
 }
 
-int	printkey(int keycode, t_data *data)
+int	destory_win(t_data *data)
 {
-	// ft_printf("push key: %d, keycode: %d\n", keycode, keycode);
-	if (keycode == 53)
-		quit(1, data);
-	if (keycode == 13 || keycode == 0 || keycode == 1 || keycode == 2)
-	{
-		ft_printf("number of movements: %d\n", move(keycode, data));
-		remap(data);
-		print_map(data->map);
-	}
+	quit(1, data);
 	return (0);
 }
 
@@ -143,18 +152,19 @@ int	main(int argc, char **argv)
 		return (ft_printf("wrong file extension\n"));
 
 	data.mlx = mlx_init();
-	data.win = mlx_new_window(data.mlx, 1920, 1080, "Hello world!");
-	data.img = mlx_new_image(data.mlx, 1920, 1080);
+	map = read_map(argv[1], &data);
+	load_map(map, &data);
+	check_map(argv[1], map, &data);
+	print_map(data.map);
+	load_texture(&data);
+
+	data.win = mlx_new_window(data.mlx, 88 * data.cols, 88 * data.rows, "game");
+	data.img = mlx_new_image(data.mlx, 88 * data.cols, 88 * data.rows);
 	data.addr = mlx_get_data_addr(data.img, &data.bits_per_pixel,
 			&data.line_length, &data.endian);
 
-	map = read_map(argv[1], &data);
-	load_map(map, &data);
-	check_map(map, &data);
-	print_map(data.map);
-
-	// mlx_mouse_hook(data.win, printmouse, &data);
-	mlx_key_hook(data.win, printkey, &data);
-	// mlx_loop_hook(data.mlx, print_map, data.map);
+	mlx_key_hook(data.win, key, &data);
+	mlx_hook(data.win, 17, 0, destory_win, &data);
+	mlx_loop_hook(data.mlx, screenctl, &data);
 	mlx_loop(data.mlx);
 }
