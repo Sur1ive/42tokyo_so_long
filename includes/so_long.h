@@ -6,7 +6,7 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 18:21:34 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/17 18:43:14 by yxu              ###   ########.fr       */
+/*   Updated: 2023/12/19 17:12:48 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_obj{
 	int	x;
 	int	y;
 	int	collectible;
+	int	life;
 }	t_obj;
 
 typedef struct s_image{
@@ -37,14 +38,13 @@ typedef struct s_image{
 }	t_image;
 
 typedef struct s_texture{
-	t_image	player_w;
-	t_image	player_a;
-	t_image	player_s;
-	t_image	player_d;
+	t_image	player_s1;
+	t_image	player_s2;
 	t_image	water;
 	t_image	wall;
 	t_image	escape;
 	t_image	collect;
+	t_image	enemy;
 }	t_texture;
 
 typedef struct s_data {
@@ -58,18 +58,19 @@ typedef struct s_data {
 	char		**map;
 	int			rows;
 	int			cols;
+	int			move_nb;
 	t_obj		player;
+	t_obj		enemy;
 	t_texture	texture;
 }	t_data;
 
-int		create_trgb(int t, int r, int g, int b);
 char	**read_map(char *path, t_data *data);
-int		load_map(char **map, t_data *data);
 int		print_map(char **map);
 int		free_map(char **map);
 int		check_map(char *path, char **map, t_data *data);
 int		quit(int exitcode, t_data *data);
 int		key(int keycode, t_data *data);
-int		mkwall(t_data *data);
+int		screenctl(t_data *data);
+void	init_data(char **map, t_data *data);
 
 #endif

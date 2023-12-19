@@ -6,19 +6,15 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 15:52:07 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/17 18:41:10 by yxu              ###   ########.fr       */
+/*   Updated: 2023/12/19 17:10:23 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-/* obj_nb[exit_nb, start_nb, collectable_nb] */
-int	check_map_obj(char **map, int *obj_nb)
+/* obj_nb[exit_nb, start_nb, collectable_nb, enemy_nb] */
+int	check_map_obj(char **map, int *obj_nb, int x, int y)
 {
-	int	x;
-	int	y;
-
-	x = 0;
 	while (map[x])
 	{
 		y = 0;
@@ -30,13 +26,15 @@ int	check_map_obj(char **map, int *obj_nb)
 				obj_nb[2]++;
 			else if (map[x][y] == 'E')
 				obj_nb[0]++;
+			else if (map[x][y] == 'V')
+				obj_nb[3]++;
 			else if (map[x][y] != '0' && map[x][y] != '1')
 				return (-1);
 			y++;
 		}
 		x++;
 	}
-	if (obj_nb[0] != 1 || obj_nb[1] != 1 || obj_nb[2] < 1)
+	if (obj_nb[0] != 1 || obj_nb[1] != 1 || obj_nb[2] < 1 || obj_nb[3] != 1)
 		return (-1);
 	return (0);
 }
@@ -86,26 +84,27 @@ int	check_map_valid(char **map, int x, int y)
 	if (map[x + 1][y] == 'E' || map[x - 1][y] == 'E'
 		|| map[x][y + 1] == 'E' || map[x][y - 1] == 'E')
 		return (0);
-	if (map[x + 1][y] == '0' || map[x + 1][y] == 'C')
+	if (map[x + 1][y] != '1')
 		result *= check_map_valid(map, x + 1, y);
-	if (map[x - 1][y] == '0' || map[x - 1][y] == 'C')
+	if (map[x - 1][y] != '1')
 		result *= check_map_valid(map, x - 1, y);
-	if (map[x][y + 1] == '0' || map[x][y + 1] == 'C')
+	if (map[x][y + 1] != '1')
 		result *= check_map_valid(map, x, y + 1);
-	if (map[x][y - 1] == '0' || map[x][y - 1] == 'C')
+	if (map[x][y - 1] != '1')
 		result *= check_map_valid(map, x, y - 1);
 	return (result);
 }
 
 int	check_map(char *path, char **map, t_data *data)
 {
-	int		obj_nb[3];
+	int		obj_nb[4];
 	char	**map_cp;
 
 	obj_nb[0] = 0;
 	obj_nb[1] = 0;
 	obj_nb[2] = 0;
-	if (check_map_obj(map, obj_nb))
+	obj_nb[3] = 0;
+	if (check_map_obj(map, obj_nb, 0, 0))
 		quit(10, data);
 	if (check_map_rectangular(map))
 		quit(11, data);

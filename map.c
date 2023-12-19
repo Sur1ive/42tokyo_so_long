@@ -6,7 +6,7 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 17:04:34 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/17 18:40:59 by yxu              ###   ########.fr       */
+/*   Updated: 2023/12/19 16:50:38 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,33 +57,6 @@ char	**read_map(char *path, t_data *data)
 	}
 	data->cols = ft_strlen(map[0]);
 	return (map);
-}
-
-int	load_map(char **map, t_data *data)
-{
-	int	x;
-	int	y;
-
-	data->map = map;
-	data->player.collectible = 0;
-	x = 0;
-	while (map[x])
-	{
-		y = 0;
-		while (map[x][y])
-		{
-			if (map[x][y] == 'P')
-			{
-				data->player.x = x;
-				data->player.y = y;
-			}
-			if (map[x][y] == 'C')
-				data->player.collectible++;
-			y++;
-		}
-		x++;
-	}
-	return (0);
 }
 
 int	print_map(char **map)
