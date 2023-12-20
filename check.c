@@ -6,7 +6,7 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 15:52:07 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/19 17:10:23 by yxu              ###   ########.fr       */
+/*   Updated: 2023/12/20 18:12:06 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	check_map_valid(char **map, int x, int y)
 	return (result);
 }
 
-int	check_map(char *path, char **map, t_data *data)
+int	check_map(char *path, t_data *data)
 {
 	int		obj_nb[4];
 	char	**map_cp;
@@ -104,17 +104,17 @@ int	check_map(char *path, char **map, t_data *data)
 	obj_nb[1] = 0;
 	obj_nb[2] = 0;
 	obj_nb[3] = 0;
-	if (check_map_obj(map, obj_nb, 0, 0))
-		quit(10, data);
-	if (check_map_rectangular(map))
-		quit(11, data);
-	if (check_map_wall(map, data->rows))
-		quit(12, data);
+	if (check_map_obj(data->map, obj_nb, 0, 0))
+		quit(1, "Map must has 1 player, 1 exit, 1 enemy, 1+ collect\n", data);
+	if (check_map_rectangular(data->map))
+		quit(1, "Map is not rectangular\n", data);
+	if (check_map_wall(data->map, data->rows))
+		quit(1, "Map is not closed by wall\n", data);
 	map_cp = read_map(path, data);
 	if (check_map_valid(map_cp, data->player.x, data->player.y))
 	{
 		free_map(map_cp);
-		quit(13, data);
+		quit(1, "No valid path in map\n", data);
 	}
 	free_map(map_cp);
 	return (0);

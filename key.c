@@ -6,7 +6,7 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 18:01:27 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/19 16:40:50 by yxu              ###   ########.fr       */
+/*   Updated: 2023/12/20 17:49:07 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	move(int keycode, t_data *data)
 	if (to == 'C')
 		data->player.collectible--;
 	if (to == 'E' && data->player.collectible == 0)
-		quit(0, data);
+		quit(0, "Congratulation! You made it!\n", data);
 	return (data->move_nb);
 }
 
@@ -81,7 +81,7 @@ int	enemy_move(t_data *data)
 int	key(int keycode, t_data *data)
 {
 	if (keycode == 53)
-		quit(1, data);
+		quit(0, "Manual exit\n", data);
 	if (keycode == 13 || keycode == 0 || keycode == 1 || keycode == 2)
 	{
 		ft_printf("number of movements: %d\n", move(keycode, data));

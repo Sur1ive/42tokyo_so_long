@@ -6,7 +6,7 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 16:12:31 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/19 17:02:09 by yxu              ###   ########.fr       */
+/*   Updated: 2023/12/20 19:05:32 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,23 @@ int	check_ext(char *path)
 	return (0);
 }
 
-int	quit(int exitcode, t_data *data)
+int	quit(int exitflag, char *msg, t_data *data)
 {
-	if (exitcode == 0)
-		ft_printf("Congratulation! You made it!\n");
-	else if (exitcode == 1)
-		ft_printf("See you again!\n");
+	if (exitflag == 0)
+		ft_printf("%sProgram exit successfully\n", msg);
 	else
+		ft_printf("Error\n%s", msg);
+	if (exitflag != 2)
 	{
-		ft_printf("Error code: %d\n", exitcode);
-		print_map(data->map);
+		free_map(data->map);
+		mlx_destroy_window(data->mlx, data->win);
 	}
-	free_map(data->map);
-	mlx_destroy_window(data->mlx, data->win);
-	exit(exitcode);
+	exit(0);
 }
 
 int	destory_win(t_data *data)
 {
-	quit(1, data);
+	quit(0, "Manual exit\n", data);
 	return (0);
 }
 
@@ -57,15 +55,16 @@ int	main(int argc, char **argv)
 	char	**map;
 
 	if (argc != 2)
-		return (ft_printf("wrong arguments number\n"));
+		quit(2, "Invalid arguments number\n", NULL);
 	if (check_ext(argv[1]))
-		return (ft_printf("wrong file extension\n"));
-
+		quit(2, "Invalid file extension, use .ber\n", NULL);
 	data.mlx = mlx_init();
+	if (data.mlx == NULL)
+		quit(2, "MLX initialization failed\n", NULL);
+	data.rows = count_line(argv[1]);
 	map = read_map(argv[1], &data);
-	init_data(map, &data);
-	check_map(argv[1], map, &data);
-
+	init_game(map, &data);
+	check_map(argv[1], &data);
 	mlx_key_hook(data.win, key, &data);
 	mlx_hook(data.win, 17, 0, destory_win, &data);
 	mlx_loop_hook(data.mlx, screenctl, &data);

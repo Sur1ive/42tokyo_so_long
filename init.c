@@ -6,7 +6,7 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:49:56 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/19 17:16:26 by yxu              ###   ########.fr       */
+/*   Updated: 2023/12/20 18:52:18 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,9 @@ int	load_texture(t_data *data)
 	return (0);
 }
 
-void	init_data(char **map, t_data *data)
+void	init_game(char **map, t_data *data)
 {
+	data->cols = ft_strlen(map[0]);
 	data->map = map;
 	data->player.life = 1;
 	data->player.collectible = 0;

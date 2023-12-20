@@ -6,7 +6,7 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:28:14 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/19 17:19:49 by yxu              ###   ########.fr       */
+/*   Updated: 2023/12/20 19:10:06 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	screenctl(t_data *data)
 	char		*move_nb;
 
 	if (death == 1)
-		quit(1, data);
+		quit(0, "You died!\n", data);
 	frame_per_anime = 25;
 	mkbackground(frame / frame_per_anime, data);
 	mksprite(frame / frame_per_anime, data);
@@ -122,6 +122,8 @@ int	screenctl(t_data *data)
 	if (data->player.life == 0)
 		death = 1;
 	move_nb = ft_itoa(data->move_nb);
+	if (move_nb == NULL)
+		quit(1, "Malloc failed when running\n", data);
 	mlx_string_put(data->mlx, data->win, 10, 10, 0x00FFFFFF, "movements:");
 	mlx_string_put(data->mlx, data->win, 120, 10, 0x00FFFFFF, move_nb);
 	free(move_nb);

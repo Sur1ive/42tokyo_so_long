@@ -6,7 +6,7 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 18:21:34 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/19 17:12:48 by yxu              ###   ########.fr       */
+/*   Updated: 2023/12/20 18:46:22 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,14 @@ typedef struct s_data {
 	t_texture	texture;
 }	t_data;
 
+int		count_line(char *path);
 char	**read_map(char *path, t_data *data);
 int		print_map(char **map);
 int		free_map(char **map);
-int		check_map(char *path, char **map, t_data *data);
-int		quit(int exitcode, t_data *data);
+int		check_map(char *path, t_data *data);
+int		quit(int exitflag, char *msg, t_data *data);
 int		key(int keycode, t_data *data);
 int		screenctl(t_data *data);
-void	init_data(char **map, t_data *data);
+void	init_game(char **map, t_data *data);
 
 #endif
