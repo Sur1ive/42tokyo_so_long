@@ -6,14 +6,14 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 18:21:34 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/20 18:46:22 by yxu              ###   ########.fr       */
+/*   Updated: 2023/12/20 20:21:08 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include "libft.h"
+# include "../libft/libft.h"
 # include <stdio.h>
 # include <string.h>
 # include <math.h>
