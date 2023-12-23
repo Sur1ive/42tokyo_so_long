@@ -6,7 +6,7 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 18:21:34 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/20 20:21:08 by yxu              ###   ########.fr       */
+/*   Updated: 2023/12/23 17:13:37 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,12 @@ char	**read_map(char *path, t_data *data);
 int		print_map(char **map);
 int		free_map(char **map);
 int		check_map(char *path, t_data *data);
-int		quit(int exitflag, char *msg, t_data *data);
+void	quit(int exitflag, char *msg, t_data *data);
 int		key(int keycode, t_data *data);
 int		screenctl(t_data *data);
 void	init_game(char **map, t_data *data);
+void	enemy_atk(t_data *data);
+void	player_atk(t_data *data);
+void	is_player_die(t_data *data);
 
 #endif

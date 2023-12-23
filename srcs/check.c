@@ -6,7 +6,7 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 15:52:07 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/20 19:36:14 by yxu              ###   ########.fr       */
+/*   Updated: 2023/12/23 16:09:29 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	check_map_obj(char **map, int *obj_nb, int x, int y)
 		}
 		x++;
 	}
-	if (obj_nb[0] != 1 || obj_nb[1] != 1 || obj_nb[2] < 1 || obj_nb[3] != 1)
+	if (obj_nb[0] != 1 || obj_nb[1] != 1 || obj_nb[2] < 1 || obj_nb[3] > 1)
 		return (-1);
 	return (0);
 }
@@ -105,7 +105,7 @@ int	check_map(char *path, t_data *data)
 	obj_nb[2] = 0;
 	obj_nb[3] = 0;
 	if (check_map_obj(data->map, obj_nb, 0, 0))
-		quit(1, "Map must has 1 player, 1 exit, 1 enemy, \
+		quit(1, "Map must has 1 player, 1 exit, 0-1 enemy, \
 1+ collections, and no other components\n", data);
 	if (check_map_rectangular(data->map))
 		quit(1, "Map is not rectangular\n", data);

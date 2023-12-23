@@ -6,7 +6,7 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 18:01:27 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/20 17:49:07 by yxu              ###   ########.fr       */
+/*   Updated: 2023/12/23 17:06:28 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 int	remap(t_data *data)
 {
 	data->map[data->player.x_from][data->player.y_from] = '0';
-	data->map[data->enemy.x_from][data->enemy.y_from] = '0';
+	if (data->enemy.life == 1)
+		data->map[data->enemy.x_from][data->enemy.y_from] = '0';
 	data->map[data->player.x][data->player.y] = 'P';
-	data->map[data->enemy.x][data->enemy.y] = 'V';
+	if (data->enemy.life == 1)
+		data->map[data->enemy.x][data->enemy.y] = 'V';
 	return (0);
 }
 
@@ -60,6 +62,8 @@ int	move(int keycode, t_data *data)
 		data->player.collectible--;
 	if (to == 'E' && data->player.collectible == 0)
 		quit(0, "Congratulation! You made it!\n", data);
+	if (to == 'E')
+		quit(0, "You escape without collecting all. Try more!\n", data);
 	return (data->move_nb);
 }
 
@@ -67,6 +71,8 @@ int	enemy_move(t_data *data)
 {
 	static int	direction = 1;
 
+	if (data->enemy.life == 0)
+		return (0);
 	data->enemy.x_from = data->enemy.x;
 	data->enemy.y_from = data->enemy.y;
 	if (data->map[data->enemy.x + direction][data->enemy.y] != '0'
@@ -84,20 +90,12 @@ int	key(int keycode, t_data *data)
 		quit(0, "Manual exit\n", data);
 	if (keycode == 13 || keycode == 0 || keycode == 1 || keycode == 2)
 	{
-		ft_printf("number of movements: %d\n", move(keycode, data));
+		move(keycode, data);
 		enemy_move(data);
 		remap(data);
-		if ((data->enemy.y == data->player.y && data->enemy.x == data->player.x)
-			|| (data->enemy.y == data->player.y_from
-				&& data->enemy.x == data->player.x_from
-				&& data->enemy.y_from == data->player.y
-				&& data->enemy.x_from == data->player.x))
-		{
-			data->map[data->player.x][data->player.y] = '0';
-			data->map[data->enemy.x][data->enemy.y] = 'V';
-			data->player.life = 0;
-		}
-		print_map(data->map);
+		enemy_atk(data);
 	}
+	if (keycode == 3)
+		player_atk(data);
 	return (0);
 }

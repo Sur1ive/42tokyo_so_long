@@ -6,7 +6,7 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:49:56 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/20 18:52:18 by yxu              ###   ########.fr       */
+/*   Updated: 2023/12/23 16:03:41 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,14 @@ void	init_game(char **map, t_data *data)
 {
 	data->cols = ft_strlen(map[0]);
 	data->map = map;
+	data->move_nb = 0;
 	data->player.life = 1;
 	data->player.collectible = 0;
-	data->move_nb = 0;
+	data->enemy.life = 1;
+	data->enemy.x = -1;
 	load_map(map, data, 0, 0);
+	if (data->enemy.x == -1)
+		data->enemy.life = 0;
 	load_texture(data);
 	data->win = mlx_new_window(data->mlx, 88 * data->cols, 88 * data->rows,
 			"Eggstealer");

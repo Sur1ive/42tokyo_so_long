@@ -17,7 +17,7 @@ OBJS	= $(SRCS:.c=.o)
 CC		= cc
 
 %.o: %.c
-	$(CC) -Wall -Wextra -I. -c $< -o $@
+	$(CC) -Wall -Wextra -Werror -I. -c $< -o $@
 
 $(NAME): $(OBJS)
 	ar rc $(NAME) $(OBJS)

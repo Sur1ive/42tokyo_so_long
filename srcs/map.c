@@ -6,7 +6,7 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 17:04:34 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/20 19:21:46 by yxu              ###   ########.fr       */
+/*   Updated: 2023/12/23 16:57:42 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	check_map_load(char **map, t_data *data)
 
 	i = 0;
 	rows = data->rows;
+	if (rows == 0)
+		quit(2, "Map loading error\n", NULL);
 	while (rows-- > 0)
 	{
 		if (map[i++] == NULL)
@@ -61,7 +63,10 @@ char	**read_map(char *path, t_data *data)
 		quit(2, "Map loading error\n", NULL);
 	map = (char **)malloc(sizeof(char *) * (data->rows + 1));
 	if (map == NULL)
+	{
+		close(fd);
 		quit(2, "Map loading error\n", NULL);
+	}
 	map[data->rows] = NULL;
 	i = 0;
 	while (i < data->rows)

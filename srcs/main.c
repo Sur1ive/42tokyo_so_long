@@ -6,7 +6,7 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 16:12:31 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/20 20:02:00 by yxu              ###   ########.fr       */
+/*   Updated: 2023/12/23 16:49:48 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	check_ext(char *path)
 	return (0);
 }
 
-int	quit(int exitflag, char *msg, t_data *data)
+void	quit(int exitflag, char *msg, t_data *data)
 {
 	if (exitflag == 0)
 		ft_printf("%sProgram exit successfully\n", msg);
@@ -48,7 +48,7 @@ int	destory_win(t_data *data)
 // __attribute__((destructor))
 // static void	destructor(void)
 // {
-// 	system("leaks -q a.out");
+// 	system("leaks -q so_long");
 // }
 
 int	main(int argc, char **argv)

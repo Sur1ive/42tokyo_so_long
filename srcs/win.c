@@ -6,7 +6,7 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:28:14 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/20 19:10:06 by yxu              ###   ########.fr       */
+/*   Updated: 2023/12/23 17:13:47 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,20 +107,16 @@ int	mksprite(int frame, t_data *data)
 int	screenctl(t_data *data)
 {
 	static int	frame = 0;
-	static int	death = 0;
 	int			frame_per_anime;
 	char		*move_nb;
 
-	if (death == 1)
-		quit(0, "You died!\n", data);
+	is_player_die(data);
 	frame_per_anime = 25;
 	mkbackground(frame / frame_per_anime, data);
 	mksprite(frame / frame_per_anime, data);
 	frame = (frame + 1) % (4 * frame_per_anime);
 	mkstatic1(data);
 	mkstatic2(data);
-	if (data->player.life == 0)
-		death = 1;
 	move_nb = ft_itoa(data->move_nb);
 	if (move_nb == NULL)
 		quit(1, "Malloc failed when running\n", data);
