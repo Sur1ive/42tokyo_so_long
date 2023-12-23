@@ -6,7 +6,7 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 17:04:34 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/23 16:57:42 by yxu              ###   ########.fr       */
+/*   Updated: 2023/12/23 17:23:02 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ void	check_map_load(char **map, t_data *data)
 	i = 0;
 	rows = data->rows;
 	if (rows == 0)
+	{
+		free_map(map);
 		quit(2, "Map loading error\n", NULL);
+	}
 	while (rows-- > 0)
 	{
 		if (map[i++] == NULL)
