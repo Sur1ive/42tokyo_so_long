@@ -6,7 +6,7 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 15:52:07 by yxu               #+#    #+#             */
-/*   Updated: 2023/12/23 16:09:29 by yxu              ###   ########.fr       */
+/*   Updated: 2024/01/16 13:42:42 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,5 +118,7 @@ int	check_map(char *path, t_data *data)
 		quit(1, "No valid path in map\n", data);
 	}
 	free_map(map_cp);
+	if (data->rows > 15 || data->cols > 28)
+		quit(1, "Map is too large\n", data);
 	return (0);
 }

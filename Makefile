@@ -15,6 +15,8 @@ $(NAME): $(OBJS)
 
 all: $(NAME)
 
+bonus: all
+
 clean:
 	rm -rf $(OBJS)
 	make clean -C libft
@@ -24,4 +26,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus
