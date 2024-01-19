@@ -6,7 +6,7 @@
 /*   By: yxu <yxu@student.42tokyo.jp>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 15:52:07 by yxu               #+#    #+#             */
-/*   Updated: 2024/01/16 13:42:42 by yxu              ###   ########.fr       */
+/*   Updated: 2024/01/19 13:21:42 by yxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ int	check_map(char *path, t_data *data)
 	obj_nb[1] = 0;
 	obj_nb[2] = 0;
 	obj_nb[3] = 0;
+	if (data->rows > 15 || data->cols > 28)
+		quit(1, "Map is too large\n", data);
 	if (check_map_obj(data->map, obj_nb, 0, 0))
 		quit(1, "Map must has 1 player, 1 exit, 0-1 enemy, \
 1+ collections, and no other components\n", data);
@@ -118,7 +120,5 @@ int	check_map(char *path, t_data *data)
 		quit(1, "No valid path in map\n", data);
 	}
 	free_map(map_cp);
-	if (data->rows > 15 || data->cols > 28)
-		quit(1, "Map is too large\n", data);
 	return (0);
 }
