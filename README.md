@@ -2,9 +2,11 @@
 # so_long
 **Final grade: 125%**:white_check_mark:</br>
 
-This project is a small 2D game with minilibx.
+This project is a small 2D game with the school graphical library: Minilibx. This library was developed internally and includes basic necessary tools to open a window, create images and deal with keyboard and mouse events.
+The player’s goal is to collect every collectible present on the map, then escape chosing the shortest possible route.
 
 ## How to use
+**This game is only available on Mac.**
 ```
 $> make
 $> ./so_long
