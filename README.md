@@ -9,7 +9,9 @@ The player’s goal is to collect every collectible present on the map, then esc
 **This game is only available on Mac.**
 ```
 $> make
-$> ./so_long
+$> ./so_long [address of map file]
+# example:
+# $> ./so_long ./maps/map.ber
 ```
 
 ## NOTICE 
